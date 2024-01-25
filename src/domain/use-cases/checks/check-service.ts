@@ -33,7 +33,11 @@ export class CheckService implements CheckServiceUseCase {
             // If the response is not OK (status code other than 200-299), throw an error
             if (!req.ok) throw new Error(`Error on check service ${url}`);
 
-            const log = new LogEntity( `Service ${ url } is working`, LogSeverityLevel.low);
+            const log = new LogEntity( {
+                message: `Service ${ url } is working`, 
+                level: LogSeverityLevel.low, 
+                origin: 'check-service.ts'
+            });
             
             this.logRepository.saveLog( log );
 
@@ -52,7 +56,11 @@ export class CheckService implements CheckServiceUseCase {
         catch (error) {
             const errorMessage = `${url} is not ok ${ error }`;
             // Log the error message
-            const log = new LogEntity( errorMessage , LogSeverityLevel.high);
+            const log = new LogEntity( {
+                message: errorMessage , 
+                level: LogSeverityLevel.high,
+                origin: 'check-service.ts'
+            });
             
             // Call the error callback with the error message
             this.logRepository.saveLog( log )

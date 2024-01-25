@@ -2,7 +2,7 @@
 import 'dotenv/config';
 
 // Import the 'env-var' module to manage environment variables easily
-import * as env from 'env-var';
+import * as env from 'env-var'; 
 
 // Define an object 'envs' to store and manage environment variables
 export const envs = {
@@ -11,6 +11,8 @@ export const envs = {
 
   // Retrieve the 'MAILER_EMAIL' environment variable, ensure it's present and a valid email string
   MAILER_EMAIL: env.get('MAILER_EMAIL').required().asEmailString(),
+
+  MAILER_SERVICE: env.get('MAILER_SERVICE').required().asString(),
 
   // Retrieve the 'MAILER_SECRET_KEY' environment variable, ensure it's present and a string
   MAILER_SECRET_KEY: env.get('MAILER_SECRET_KEY').required().asString(),

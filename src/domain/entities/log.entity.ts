@@ -5,22 +5,37 @@ export enum LogSeverityLevel {
     high = 'high'
 }
 
+export interface LogEntityOptions {
+    level: string;
+    message: string,
+    createdAt?: Date,
+    origin: string,
+}
+
+
+
 // Define a class LogEntity to represent a log entry
 export class LogEntity {
 
     // Public properties to store log information
     public level: string;
     public message: string;
-    public createdAt: Date;
+    public createdAt?: Date;
+    public origin: string;
 
     // Constructor for creating a new LogEntity instance
-    constructor(message: string, level: LogSeverityLevel) {
+    constructor(options: LogEntityOptions) {
+
+        const {message, level, origin, createdAt = new Date()} = options;
+
         // Set the message property with the provided message
         this.message = message;
         // Set the log severity level with the provided level (enum value)
         this.level = level;
         // Set the createdAt property with the current date and time
-        this.createdAt = new Date();
+        this.createdAt = createdAt;
+
+        this.origin = origin;
     }
 
     // Static method to create a LogEntity instance from a JSON string
@@ -35,7 +50,12 @@ export class LogEntity {
         if (!createdAt) throw new Error('Error: Missing createdAt property');
 
         // Create a new LogEntity instance with the extracted properties
-        const log = new LogEntity(message, level);
+        const log = new LogEntity({
+            message: message,
+            level: level,
+            createdAt: createdAt,
+            origin: origin,
+        });
 
         // Set the createdAt property with the parsed Date object
         log.createdAt = new Date(createdAt);
